@@ -126,3 +126,57 @@ __Result__
   },
 ]
 ```
+
+### Prayer Times
+
+Use the following URL to get prayer times for an island on a specific date by passing `islandID` and `date`.
+
+>__Note:__ _When sending `date` use `YYYY-MM-DD` format._
+
+```
+http://localhost:8080/prayerTime?islandId=203&date=2003-10-6
+```
+
+__Result__
+
+```json
+{
+  "Fajuru": "2003-10-06T04:42:00.000Z",
+  "Sunrise": "2003-10-06T05:53:00.000Z",
+  "Dhuhr": "2003-10-06T12:01:00.000Z",
+  "Asr": "2003-10-06T15:13:00.000Z",
+  "Maghrib": "2003-10-06T18:00:00.000Z",
+  "Isha": "2003-10-06T19:11:00.000Z"
+}
+```
+
+Use the following URL to get prayer times for an island for a range of days by passing `islandID`, `from`, and `to` query parameter.
+
+>__Note:__ _When sending date (`from` and `to`) to get prayer times, send only month and date of the month. For example `October, 6th` is `10-6`._
+
+```
+http://localhost:8080/prayerTime?islandId=203&from=10-6&to=10-7
+```
+
+__Result__
+
+```json
+[
+  {
+    "Fajuru": "2023-10-06T04:42:00.000Z",
+    "Sunrise": "2023-10-06T05:53:00.000Z",
+    "Dhuhr": "2023-10-06T12:01:00.000Z",
+    "Asr": "2023-10-06T15:13:00.000Z",
+    "Maghrib": "2023-10-06T18:00:00.000Z",
+    "Isha": "2023-10-06T19:11:00.000Z"
+  },
+  {
+    "Fajuru": "2023-10-07T04:42:00.000Z",
+    "Sunrise": "2023-10-07T05:53:00.000Z",
+    "Dhuhr": "2023-10-07T12:00:00.000Z",
+    "Asr": "2023-10-07T15:13:00.000Z",
+    "Maghrib": "2023-10-07T17:59:00.000Z",
+    "Isha": "2023-10-07T19:10:00.000Z"
+  }
+]
+```
