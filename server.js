@@ -15,9 +15,11 @@ app.use(express.json());
 
 // routes
 const islandRoute = require("./routes/island.js");
+const prayerTime = require('./routes/prayer_time.js');
 
 // registering routes
 app.use("/islands", islandRoute);
+app.use('/prayerTime', prayerTime);
 
 // connecting to database and syncing
 sequelize
