@@ -78,32 +78,14 @@ __Result__
 ]
 ```
 
-Use the following URL to get specific island by ID.
-
-```
-http://localhost:8080/islands/203
-```
-
-__Result__
-
-```json
-{
-  "IslandId": 203,
-  "Island": "މިލަންދޫ",
-  "Atoll": "ށ",
-  "CategoryId": 44,
-  "Minutes": 0
-}
-```
-
 Use the following to get islands either by `Atoll` or `CategoryId`.
 
 ```
-http://localhost:8080/islands/atoll/ށ
+http://localhost:8080/islands?atoll=ށ
 ```
 
 ```
-http://localhost:8080/islands/atoll/44
+http://localhost:8080/islands?atoll=44
 ```
 
 __Result__
@@ -125,6 +107,24 @@ __Result__
     "Minutes": 1
   },
 ]
+```
+
+Use the following URL to get specific island by ID.
+
+```
+http://localhost:8080/islands/203
+```
+
+__Result__
+
+```json
+{
+  "IslandId": 203,
+  "Island": "މިލަންދޫ",
+  "Atoll": "ށ",
+  "CategoryId": 44,
+  "Minutes": 0
+}
 ```
 
 ### Prayer Times

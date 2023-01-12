@@ -4,9 +4,16 @@ const Island = require("../models/island.js");
 // get all the islands or islands that meet the search term
 module.exports.getAllIslands = async (req, res) => {
   const searchTerm = req.query.search;
+  const atoll = req.query.atoll;
+
+  // if both search and atoll parameter passed
+  if (atoll !== '' && atoll !== undefined && searchTerm !== '' && searchTerm !== undefined) {
+    res.status(400).json({ message: "Please pass any one of the query parameter!" });
+    return;
+  }
 
   try {
-    // if query parameter passed
+    // if searching using search query parameter
     if (searchTerm !== '' && searchTerm !== undefined) {
       var islands = await Island.findAll({
         attributes: ["IslandId", "Island", "Atoll", "CategoryId", "Minutes"],
@@ -16,6 +23,27 @@ module.exports.getAllIslands = async (req, res) => {
       });
 
       // is no islands found
+      if (islands.length === 0) {
+        res.status(404).json({
+          message: "No islands found!",
+        });
+        return;
+      }
+
+      res.json(islands);
+      return;
+    }
+
+    // if atoll query parameter passed
+    if (atoll !== '' && atoll !== undefined) {
+      const islands = await Island.findAll({
+        attributes: ["IslandId", "Island", "Atoll", "CategoryId", "Minutes"],
+        where: {
+          [Op.or]: [{ Atoll: atoll }, { CategoryId: atoll }],
+        },
+      });
+
+      // if not island found
       if (islands.length === 0) {
         res.status(404).json({
           message: "No islands found!",
@@ -71,31 +99,31 @@ module.exports.getIsland = async (req, res) => {
 }
 
 // get island by atoll name or by category id
-module.exports.getIslandsByAtoll = async (req, res) => {
-  const atoll = req.params.atoll;
+// module.exports.getIslandsByAtoll = async (req, res) => {
+//   const atoll = req.params.atoll;
 
-  try {
-    const islands = await Island.findAll({
-      attributes: ["IslandId", "Island", "Atoll", "CategoryId", "Minutes"],
-      where: {
-        [Op.or]: [{ Atoll: atoll }, { CategoryId: atoll }],
-      },
-    });
+//   try {
+//     const islands = await Island.findAll({
+//       attributes: ["IslandId", "Island", "Atoll", "CategoryId", "Minutes"],
+//       where: {
+//         [Op.or]: [{ Atoll: atoll }, { CategoryId: atoll }],
+//       },
+//     });
 
-    // if not island found
-    if (islands.length === 0) {
-      res.status(404).json({
-        message: "No islands found!",
-      });
-      return;
-    }
+//     // if not island found
+//     if (islands.length === 0) {
+//       res.status(404).json({
+//         message: "No islands found!",
+//       });
+//       return;
+//     }
 
-    res.json(islands);
-  } catch (error) {
-    res.status(500).json({
-      message: "Something went wrong while trying to fetch the data.",
-    });
+//     res.json(islands);
+//   } catch (error) {
+//     res.status(500).json({
+//       message: "Something went wrong while trying to fetch the data.",
+//     });
 
-    console.log(error);
-  }
-}
+//     console.log(error);
+//   }
+// }
